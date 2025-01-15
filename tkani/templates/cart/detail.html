@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+    Your shopping cart
+{% endblock %}
+{% block content %}
+    <h1>Корзина</h1>
+    <table class="cart table">
+        <thead>
+        <tr>
+            <th>Фотография</th>
+            <th>Товар</th>
+            <th>Количество</th>
+            <th>Удалить</th>
+            <th>Цена</th>
+            <th>Итого</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in cart %}
+            {% with product=item.product %}
+                <tr>
+                    <td>
+                        <a href="{{ product.get_absolute_url }}">
+                            <img height="100" width="100" src="
+                                {% if product.image %}
+                                    {{ product.image.url }}
+                                {% else %}
+                                    {% static "img/no_image.png" %}
+                                {% endif %}">
+                        </a>
+                    </td>
+                    <td>{{ product.title }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td><a href="{% url "cart:cart_remove" product.id%}">
+                        <img src="{% static 'img/delete.svg' %}" width="40" height="40" alt="Иконка удалить."></a></td>
+                    <td class="num" ><p style="color: #60B021;">{{ item.price }} рублей</p></td>
+                    <td class="num">{{ item.total_price }} рублей</td>
+                </tr>
+            {% endwith %}
+        {% endfor %}
+        <tr class="total">
+            <td class="h5">ИТОГО</td>
+            <td colspan="4"></td>
+            <td class="num h5">{{ cart.get_total_price }} рублей</td>
+        </tr>
+        </tbody>
+    </table>
+    <p class="text-right">
+        <a href="{% url "orders:order_create" %}" class="button">
+            <img src="{% static 'img/confirm.svg' %}" width="200" height="55" alt="Иконка удалить."></a>
+        </a>
+    </p>
+{% endblock %}

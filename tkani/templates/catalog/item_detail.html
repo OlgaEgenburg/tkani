@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+  Каталог тканей. Ткань {{ ice_cream.title|lower }}
+{% endblock %}
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'home:index' %}">Главная</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'catalog:subcategory_items' item.category.slug %}">{{ item.category.title }}</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'catalog:subcategory_items' item.subcategory.slug %}">{{ item.subcategory.title }}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ item.title }}</li>
+    </ol>
+  </nav>
+  <h1 class="pb-2 mb-0">{{ ice_cream.title }}</h1>  
+  <div class="row mt-3">
+    <div class="col-12 col-md-6">
+      <h2>{{ item.title }}</h2>
+      <p>{{ ice_cream.text }}</p>  
+      <h5>
+        <span class="badge bg-secondary">{{ item.category.title }}</span>
+        <span class="badge bg-success">Цена за метр {{ item.price }}</span>
+        <span class="badge bg-danger">оптовая {{ item.price_opt }}</span>
+        <form class="align-items-center" action="{% url "cart:cart_add" item.id %}" method="post">
+          {{ cart_product_form }}
+          {% csrf_token %}
+          <input class="d-inline-block align-items-center" type="image" src="{% static 'img/btn_in_cart.svg' %}" alt="ОК" width="150" height="55">
+      </form>
+      </h5>
+      <p>Характеристики:</p>
+      <ul class="list-group list-group-flush list-unstyled">
+        <li>Артикул - {{ item.sku }}</li> 
+        <li>Ширина - {{ item.width }}</li> 
+        <li>Плостность - {{ item.density }}</li> 
+        <li>Цвет - {{ ite.color }}</li> 
+        <li>Тип ткани - {{ ite.type_fabric }}</li>   
+        <li>Страна производитель - {{ ite.made_in }}</li>      
+      </ul>
+    </div> 
+    <div class="col-12 col-md-6 mb-3">
+      <img 
+        class="img-fluid" 
+        height="400" width="300"
+        src="{{ item.image.url }}"
+        >      
+    </div>
+  </div>     
+{% endblock %}

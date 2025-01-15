@@ -1,0 +1,88 @@
+{% load static %}
+
+<header >
+  <div class="d-flex flex-row space-between align-items-center" style="background-color: #fff;">
+    <nav class="navbar-inverse navbar d-flex flex-grow-1 navbar-expand-lg justify-content-center navbar-fixed-top" style="margin-botton: 20px; position: static; position: sticky;">
+      <div class="container-fluid"> 
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Переключатель навигации">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="{% url 'home:index' %}">
+          <img src="{% static 'img/logo.jpeg' %}" width="70" height="70" class="align-top" alt="Логотип сайта.">
+        </a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          {% with request.resolver_match.view_name as view_name %}
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item h6">
+              <a class="nav-link btn-light {% if view_name == 'home:index' %} active {% endif %}"
+                href="{% url 'home:index' %}">
+                Каталог
+              </a>
+            </li>
+            <li class="nav-item h6">
+              <a class="nav-link {% if view_name == 'company:about' %} active {% endif %}"
+                href="{% url 'company:about' %}">
+                О компании
+              </a>
+            </li>
+            <li class="nav-item h6">
+              <a class="nav-link {% if view_name == 'company:delivery' %} active {% endif %}"
+                href="{% url 'company:delivery' %}">
+                Доставка
+              </a>
+            </li>
+            <li class="nav-item h6">
+              <a class="nav-link {% if view_name == 'company:delivery' %} active {% endif %}"
+                href="{% url 'company:sewing' %}">
+                Пошив изделий
+              </a>
+            </li>
+            <li class="nav-item h6">
+              <a class="nav-link {% if view_name == 'company:delivery' %} active {% endif %}"
+                href="{% url 'company:delivery' %}">
+                Лоскуты
+              </a>
+            </li>
+          </ul>
+        {% endwith %}
+
+      </div>
+    </nav>
+    <div class="cart">
+      {% with total_items=cart|length %}
+            {% if cart|length > 0 %}
+                <a href="{% url "cart:cart_detail" %}">
+                  <img src="{% static 'img/shopping-cart.svg' %}" width="20" height="20" class="position-relative" alt="Иконка корзины.">
+                  <span class="top-0 start-100 translate-middle badge rounded-pill" style="background-color: #60B021;">{{ total_items }}</span>
+                </a>
+            {% else %}
+            <a href="{% url "cart:cart_detail" %}">
+              <img src="{% static 'img/shopping-cart.svg' %}" width="20" height="20" class="position-relative" alt="Иконка корзины.">
+            </a>
+            <span class="top-0 start-100 translate-middle badge rounded-pill" style="background-color: #60B021;">0</span>
+            {% endif %}
+        {% endwith %}
+    </div>
+    <div class="spacer flex-row" style="bg-color: #fff">
+      {% if user.is_authenticated %}
+        <div class="nav-item align-self-center mt-1">Пользователь: <b>{{ user.username }}</b></div>
+      {% endif %}
+      <ul class="nav nav-pills" >
+        {% if user.is_authenticated %}
+          <li class="nav-item" >
+            <a class="nav-link" href="{% url 'logout' %}" >Выйти</a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link{% if view_name == 'login' %} active {% endif %}" href="{% url 'login' %}">
+              <img src="{% static 'img/user.svg' %}" width="20" height="20" class="align-top" alt="Вход для авторизации.">
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'registration' %}">Регистрация</a>
+          </li>  
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</header>

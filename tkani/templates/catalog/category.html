@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'home:index' %}">Главная</a></li>
+    <li class="breadcrumb-item active" aria-current="page"><a href="{% url 'catalog:subcategory_items' subcategory.category.slug %}">{{ subcategory.category.title }}</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{ subcategory.title }}</li>
+  </ol>
+</nav>
+<h1>Раздел «{{ subcategory.title }}»</h1>
+<p class="mb-5">{{ subcategory.description }}</p>
+<div class="col-9 col-md-5 col-lg-8 flex-column">
+    {% for item in item_list %}
+      {% include "includes/item_card.html" %}
+    {% endfor %}
+  </div>
+
+{% endblock %}
