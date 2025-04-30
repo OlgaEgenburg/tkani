@@ -14,10 +14,10 @@ SECRET_KEY = 'django-insecure-6=eo@u@jtl11$8$1@q%a2t)=0nodp-uo9&t)vg5@k2n-4ycsbz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-] 
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'lisla-tkani.ru',
+                 '89.111.169.18',] 
 
-LOGIN_REDIRECT_URL = 'home:index' 
+#LOGIN_REDIRECT_URL = 'home:index' 
 # Application definition
 
 INSTALLED_APPS = [
@@ -32,7 +32,6 @@ INSTALLED_APPS = [
     'catalog.apps.CatalogConfig',
     'orders.apps.OrdersConfig',
     'django_bootstrap5',
-    'haystack',
 ]
 
 MIDDLEWARE = [
@@ -124,8 +123,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = BASE_DIR / 'collected_static'
+
 STATICFILES_DIRS = [
-    BASE_DIR / 'static_dev',
+   os.path.join(BASE_DIR, "static")
+    
 ]
 
 # Default primary key field type
